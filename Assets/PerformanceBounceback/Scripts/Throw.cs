@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Throw : MonoBehaviour
 {
-
     private SteamVR_TrackedObject trackedObj;
     private SteamVR_Controller.Device device;
     public float throwForce = 2f;

@@ -4,20 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Score : MonoBehaviour {
-
-    public GameManager gameManager;
+	protected Text textScore = null;    // cached text for score manager
 
 	// Use this for initialization
 	void Start () {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+	    textScore = GetComponentInChildren<Text>();
+        GameManager.ScoreboardRegister(gameObject.name, ScoreboardCallback);
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
-        Text text = GetComponentInChildren<Text>();
-        text.text = "Score: " + gameManager.score.ToString();
-
-		
-	}
+    public void ScoreboardCallback(int scoreNew, int timeRemainNew, string strCombined) 
+    {
+        textScore.text = strCombined;       //could do something else, but why?
+    }
 }
