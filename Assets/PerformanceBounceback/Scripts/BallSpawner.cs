@@ -5,6 +5,7 @@ using UnityEngine;
 public class BallSpawner : MonoBehaviour {
 
     public static BallSpawner current;
+    protected GameManager gameManager;
 
     public GameObject pooledBall; //the prefab of the object in the object pool
     public int ballsAmount = 20; //the number of objects you want in the object pool
@@ -29,6 +30,7 @@ public class BallSpawner : MonoBehaviour {
             obj.SetActive(false);
             pooledBalls.Add(obj);
         }
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     public GameObject GetPooledBall()
@@ -53,12 +55,14 @@ public class BallSpawner : MonoBehaviour {
    	
 	// Update is called once per frame
 	void Update () {
-        cooldown -= Time.deltaTime;
-        if(cooldown <= 0)
-        {
-            cooldown = cooldownLength;
-            SpawnBall();
-        }		
+        if (gameManager.GameRunning()) {
+            cooldown -= Time.deltaTime;
+            if(cooldown <= 0)
+            {
+                cooldown = cooldownLength;
+                SpawnBall();
+            }		
+        }
 	}
 
     void SpawnBall()

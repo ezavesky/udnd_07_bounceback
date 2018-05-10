@@ -20,6 +20,11 @@ public class Trampoline : MonoBehaviour {
             gameManager.ScoreIncrement();
             //Particle effect
             pSystem.Play();
+            //attempt to play as well
+            Valve.VR.InteractionSystem.PlaySound soundBounce = col.gameObject.GetComponent<Valve.VR.InteractionSystem.PlaySound>();
+            if (soundBounce) {
+                soundBounce.PlayOneShotSound();
+            }
             Debug.Log("Trampoline Hit");
         }
 

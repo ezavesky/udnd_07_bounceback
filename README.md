@@ -13,6 +13,10 @@ within a count down period.
 * Modified scoreboard 
     * register and support callback instead of update
     * created four scoreboards along walls for easy visibility
+* Sound addition
+    * added bounce sound for ball when it hits trampoline
+    * added music loop that gradually goes up in pitch
+* BallSpawner: modified to check if game is running in update loop
 
 
 # Scripting
@@ -46,9 +50,15 @@ oversampling vs distance
 # Administrata Considerations
 This project is part of [Udacity](https://www.udacity.com "Udacity - Be in demand")'s [VR Developer Nanodegree](https://www.udacity.com/course/vr-developer-nanodegree--nd017).
 
+## Content Sources
+* [starting bugle race](http://free-loops.com/2091-bugle-call-race.html)
+* [buzzer sound](http://www.orangefreesounds.com/game-show-buzzer-sound/)
+* [ball bounce](https://freesound.org/people/1479009/sounds/411552/)
+* [PimPoy music loop](https://www.dl-sounds.com/royalty-free/pim-poy-pocket/)
+
 ## Time Consumed
 * Raw Log (to be simplified)
-* 1h 35
+* 2h 25m
 
 ## Versions
 - Unity 2017.3.0f3+ (for development), originally created in Unity 2017.2.0f3

@@ -8,7 +8,14 @@ public class GameManager : MonoBehaviour {
     public float timeRemain = 0.0f;        // countdown timer
     public int timeGameLength = 30;  // variable for how long each game is
     public float invokeInterval = 0.5f;
+    
+    public AudioSource sourceMusic = null;  //sound source for music
+    protected const float PITCH_ACCELERATE_MAX = 0.25f;
 
+    public AudioSource sourceOneShot = null;  //sound source for oneshot
+    public AudioClip clipStart = null;
+    public AudioClip clipStop = null;
+    
     void Start() {
         score = 0;
         timeRemain = 0;
@@ -19,7 +26,19 @@ public class GameManager : MonoBehaviour {
     public void GameRestart() {
         score = 0;
         timeRemain = timeGameLength; 
+        if (sourceMusic) {      //start game sound
+            sourceMusic.loop = true;
+            sourceMusic.Play();
+            sourceMusic.pitch = 1.0f;
+        }
+        if (sourceOneShot && clipStart) {
+            sourceOneShot.PlayOneShot(clipStart);
+        }
         InvokeRepeating("ScoreboardRepeating", 0.0f, invokeInterval);     //call scoreboard every 0.5s
+    }
+
+    public bool GameRunning() {
+        return (timeRemain >= 0);
     }
 
     // function to increment score, update callback
@@ -33,12 +52,21 @@ public class GameManager : MonoBehaviour {
     private void ScoreboardRepeating() {
         timeRemain -= invokeInterval;
         if (timeRemain >= 0) {
-            //TODO: sound game start sound
             GameManager.ScoreboardUpdate(this);
+            if (sourceMusic) {
+                sourceMusic.pitch = 1.0f + PITCH_ACCELERATE_MAX*((timeGameLength - timeRemain)/timeGameLength);
+            }
         }
         else {
             //TODO: sound buzzer
             CancelInvoke("ScoreboardRepeating");
+            if (sourceMusic) {
+                sourceMusic.Stop();
+                sourceMusic.pitch = 1.0f;
+            }
+            if (sourceOneShot && clipStop) {
+                sourceOneShot.PlayOneShot(clipStop);
+            }
         }
     }
 
@@ -51,7 +79,7 @@ public class GameManager : MonoBehaviour {
     // actually propagate score to scoreboards
     protected static void ScoreboardUpdate(GameManager gm) {
         GameManager.ScoreboardUpdate(gm.score, (int)Mathf.Ceil(gm.timeRemain), 
-                                    string.Format("Score: {0}\nRemaining: {1:#.0}s", gm.score, gm.timeRemain));
+                                    string.Format("Score: {0}\nRemaining: {1:#0.0}s", gm.score, gm.timeRemain));
     }
 
     // actually propagate score to scoreboards
