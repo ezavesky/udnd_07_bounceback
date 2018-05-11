@@ -46,6 +46,8 @@ public class BallSpawner : MonoBehaviour {
         lock (thisLock) {
             ballPoolNum = pooledBalls.Count;
             int ballsAmount = (int)Mathf.Floor(ballTimeout/cooldownLength);
+            Debug.Log(string.Format("[GreatePooledBalls]: Executing to generate {0} additional balls for existing {1}, time:{2}.",
+                                    ballsAmount, pooledBalls.Count, Time.fixedTime));
             for (int i = 0; i < ballsAmount; i++)
             {
                 BallProperties propNew = new BallProperties();
@@ -69,9 +71,10 @@ public class BallSpawner : MonoBehaviour {
                     //now compute distance away from the user/camera
                     float fDistBall = Vector3.Distance(Camera.main.transform.position, 
                                                        pooledBalls[ballPoolNum].obj.transform.position);
-                    //Debug.Log(string.Format("BallDist: {0}, MaxDist: {1}, BallTime: {2}, TimeNow: {3}", 
-                    //                        fDistBall, ballMaxDistance, pooledBalls[ballPoolNum].timeSpawn, Time.fixedTime));
+                    Debug.Log(string.Format("BallDist: {0}, MaxDist: {1}, BallTime: {2}, TimeNow: {3}", 
+                                           fDistBall, ballMaxDistance, pooledBalls[ballPoolNum].timeSpawn, Time.fixedTime));
                     if (fDistBall > ballMaxDistance || !pooledBalls[ballPoolNum].obj.activeInHierarchy) {
+                        Debug.Log(string.Format("[GetPooledBall]: Grabbing ball {0}", ballPoolNum));
                         break;
                     }
                 }
