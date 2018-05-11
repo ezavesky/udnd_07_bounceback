@@ -4,6 +4,11 @@ modifications made to improve performance of a VR application.  The game itself
 allows the player to move around the room, throwing balls onto trampolines
 within a count down period.
 
+1. [Gameplay Modifications](#gameplay-development-not-optimization)
+2. [Profiling and Scripting Optimizations](#profiling)
+3. [Graphics Optimizations](#general-graphics)
+4. [Source and Administrata](#administrata-considerations)
+
 # Gameplay Development (not optimization)
 * Added timing logistics to game manager
     * initial score, time remain counter, public variable for initial game time.
@@ -94,7 +99,7 @@ Looking at profiler, a lot of time was wasted in the
 <tr>
     <td>r2</td>
     <td>halved draws from ground trampolines being made static</td>
-    <td> <a href="docs/profile_2_draws_static_tramp.png" target="_new"><img src="docs/profile_2_draws_static_tramp.png" width="100%" /></a></td>
+    <td> <a href="docs/draws_2_static_tramp.png" target="_new"><img src="docs/draws_2_static_tramp.png" width="100%" /></a></td>
 </tr>
 </table>
    
@@ -119,7 +124,7 @@ This project is part of [Udacity](https://www.udacity.com "Udacity - Be in deman
 
 ## Time Consumed
 * Raw Log (to be simplified)
-* 3h 25m
+* 3h 40m
 
 ## Versions
 - Unity 2017.3.0f3+ (for development), originally created in Unity 2017.2.0f3
