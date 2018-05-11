@@ -9,27 +9,34 @@ within a count down period.
     * initial score, time remain counter, public variable for initial game time.
     * added callback structure (instad of in update loop)
     * remove `Update` function and instead use `InvokeRepeating` every half second
-* Modified trampline to use functional score inrement
-* Modified scoreboard 
-    * register and support callback instead of update
-    * created four scoreboards along walls for easy visibility
 * Sound addition
     * added bounce sound for ball when it hits trampoline
     * added music loop that gradually goes up in pitch
-* BallSpawner: modified to check if game is running in update loop
+    * addded reverb for "factory like" envirionment:w
 
 
 # Scripting
 ## Update and Start Optimization
 * Score: After connecting scoreboard, created cached text variable 
   instead of pulling back a child component every `Update` frame.
-* Trampoline: Move functions called in `Update` to `Start`
 
 # Profiling
 ## Spotting Spikes
+* BallSpawner
+    * modified to check if game is running in update loop
+    * reuse balls that are too old (since spawn) or too far away from user
 
 
 ## Spotting Constant Time Waste
+Looking at profiler in stage 0 and stage 1, a lot of time was wasted in the
+`Update` call of the *Trampoline* script.
+
+* Modified trampoline to use functional score increment
+    * Move functions called in `Update` to `Start`
+    * Remove excessive search and component retrieves from `Update`
+* Modified scoreboard 
+    * register and support callback instead of update
+    * created four scoreboards along walls for easy visibility
 
 ## On-device Optimization (Vive)
 
@@ -58,7 +65,7 @@ This project is part of [Udacity](https://www.udacity.com "Udacity - Be in deman
 
 ## Time Consumed
 * Raw Log (to be simplified)
-* 2h 25m
+* 3h 15m
 
 ## Versions
 - Unity 2017.3.0f3+ (for development), originally created in Unity 2017.2.0f3

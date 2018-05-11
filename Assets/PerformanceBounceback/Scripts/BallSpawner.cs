@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class BallSpawner : MonoBehaviour {
 
-    public static BallSpawner current;
+    [System.Serializable]
+    public class BallProperties {
+        public GameObject obj;
+        public float timeSpawn;
+    }
+
+    protected static System.Object thisLock = new System.Object (); //lock for matrix update
+    protected static BallSpawner current;
     protected GameManager gameManager;
 
     public GameObject pooledBall; //the prefab of the object in the object pool
-    public int ballsAmount = 20; //the number of objects you want in the object pool
-    public List<GameObject> pooledBalls; //the object pool
+    protected List<BallProperties> pooledBalls; //the object pool
     public static int ballPoolNum = 0; //a number used to cycle through the pooled objects
+    protected static int ballPoolLast = 0;     //index for last loop
+    
+    // NOTE: we replace the user-specified "ballsAmount" with the formulaic number to create (see "CreatePooledBalls")
 
     private float cooldown;
     private float cooldownLength = 0.5f;
+    public float ballTimeout = 10.0f;      // default time before a ball is reused
+    public float ballMaxDistance = 10.0f;   // default distance away from user to reuse a bal
 
     void Awake()
     {
@@ -22,35 +33,62 @@ public class BallSpawner : MonoBehaviour {
 
     void Start()
     {
-        //Create Bullet Pool
-        pooledBalls = new List<GameObject>();
-        for (int i = 0; i < ballsAmount; i++)
-        {
-            GameObject obj = Instantiate(pooledBall);
-            obj.SetActive(false);
-            pooledBalls.Add(obj);
-        }
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+
+        //Create Bullet Pool
+        pooledBalls = new List<BallProperties>();
+        ballPoolLast = 0;
+        CreatePooledBalls();
+    }
+
+    //create new pooled/cached balls, ideally this should only happen once!
+    protected void CreatePooledBalls() {
+        lock (thisLock) {
+            ballPoolNum = pooledBalls.Count;
+            int ballsAmount = (int)Mathf.Floor(ballTimeout/cooldownLength);
+            for (int i = 0; i < ballsAmount; i++)
+            {
+                BallProperties propNew = new BallProperties();
+                propNew.obj = Instantiate(pooledBall);
+                propNew.obj.SetActive(false);
+                propNew.timeSpawn = -2 * ballTimeout;
+                pooledBalls.Add(propNew);
+            }
+        }
     }
 
     public GameObject GetPooledBall()
     {
-        ballPoolNum++;
-        if (ballPoolNum > (ballsAmount - 1))
-        {
-            ballPoolNum = 0;
+        lock (thisLock) {
+            do {
+                if (ballPoolNum >= pooledBalls.Count) {      //looped past the known index?
+                    ballPoolNum = 0;
+                }
+                //this ball is "old enough" to reuse?
+                if ((pooledBalls[ballPoolNum].timeSpawn + ballTimeout) < Time.fixedTime) {  
+                    //now compute distance away from the user/camera
+                    float fDistBall = Vector3.Distance(Camera.main.transform.position, 
+                                                       pooledBalls[ballPoolNum].obj.transform.position);
+                    //Debug.Log(string.Format("BallDist: {0}, MaxDist: {1}, BallTime: {2}, TimeNow: {3}", 
+                    //                        fDistBall, ballMaxDistance, pooledBalls[ballPoolNum].timeSpawn, Time.fixedTime));
+                    if (fDistBall > ballMaxDistance || !pooledBalls[ballPoolNum].obj.activeInHierarchy) {
+                        break;
+                    }
+                }
+                //not old enough or too close
+                ballPoolNum++;
+            }
+            while (ballPoolNum != ballPoolLast);
+            
+            //if we’ve run out of objects in the pool too quickly, create a new one
+            if (ballPoolNum==ballPoolLast && pooledBalls[ballPoolNum].obj.activeInHierarchy)
+            {
+                CreatePooledBalls();
+            }
+            ballPoolLast = ballPoolNum;
+            pooledBalls[ballPoolNum].timeSpawn = Time.fixedTime;
+            return pooledBalls[ballPoolNum].obj;
         }
-        //if we’ve run out of objects in the pool too quickly, create a new one
-        if (pooledBalls[ballPoolNum].activeInHierarchy)
-        {
-            //create a new bullet and add it to the bulletList
-            GameObject obj = Instantiate(pooledBall);
-            pooledBalls.Add(obj);
-            ballsAmount++;
-            ballPoolNum = ballsAmount - 1;
-        }
-        Debug.Log(ballPoolNum);
-        return pooledBalls[ballPoolNum];
     }
    	
 	// Update is called once per frame

@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviour {
             }
         }
         else {
-            //TODO: sound buzzer
             CancelInvoke("ScoreboardRepeating");
             if (sourceMusic) {
                 sourceMusic.Stop();
