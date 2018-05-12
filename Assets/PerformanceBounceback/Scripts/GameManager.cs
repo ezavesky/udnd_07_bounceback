@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour {
     
     public AudioSource sourceMusic = null;  //sound source for music
     protected const float PITCH_ACCELERATE_MAX = 0.25f;
-
+    protected enum GAME_STATE { STATE_INITIAL, STATE_NORMAL, STATE_FINISHED };
+    
     public AudioSource sourceOneShot = null;  //sound source for oneshot
     public AudioClip clipStart = null;
     public AudioClip clipStop = null;
@@ -25,23 +26,18 @@ public class GameManager : MonoBehaviour {
 
     public void GameRestart() {
         score = 0;
-        timeRemain = timeGameLength; 
-        if (sourceMusic) {      //start game sound
-            sourceMusic.loop = true;
-            sourceMusic.Play();
-            sourceMusic.pitch = 1.0f;
-        }
+        timeRemain = 0.0f;
         if (sourceOneShot && clipStart) {
             sourceOneShot.PlayOneShot(clipStart);
+            timeRemain = clipStart.length;
         }
-        InvokeRepeating("ScoreboardRepeating", 0.0f, invokeInterval);     //call scoreboard every 0.5s
+        InvokeRepeating("ScoreboardPreroll", 0.0f, invokeInterval);     //call scoreboard every 0.5s
     }
 
     public bool GameRunning() {
         return (timeRemain >= 0);
     }
 
-    // function to increment score, update callback
     public void ScoreIncrement(int numHits=1) {
         lock (thisLock) {
             score += numHits;
@@ -49,6 +45,25 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    // preroll for initial sound introduction
+    private void ScoreboardPreroll() {
+        timeRemain -= invokeInterval;
+        if (timeRemain >= 0.0f) {
+            GameManager.ScoreboardUpdate(this, GAME_STATE.STATE_INITIAL);
+        }
+        else {
+            CancelInvoke("ScoreboardPreroll");
+            InvokeRepeating("ScoreboardRepeating", 0.0f, invokeInterval);     //call scoreboard every 0.5s
+            timeRemain = timeGameLength; 
+            if (sourceMusic) {      //start game sound
+                sourceMusic.loop = true;
+                sourceMusic.Play();
+                sourceMusic.pitch = 1.0f;
+            }
+        }
+    }
+    
+    // function to increment score, update callback
     private void ScoreboardRepeating() {
         timeRemain -= invokeInterval;
         if (timeRemain >= 0) {
@@ -58,6 +73,7 @@ public class GameManager : MonoBehaviour {
             }
         }
         else {
+            GameManager.ScoreboardUpdate(this, GAME_STATE.STATE_FINISHED);
             CancelInvoke("ScoreboardRepeating");
             if (sourceMusic) {
                 sourceMusic.Stop();
@@ -76,9 +92,19 @@ public class GameManager : MonoBehaviour {
     public delegate void ScoreboardCallback(int scoreNew, int timeRemainNew, string strCombined);
 
     // actually propagate score to scoreboards
-    protected static void ScoreboardUpdate(GameManager gm) {
-        GameManager.ScoreboardUpdate(gm.score, (int)Mathf.Ceil(gm.timeRemain), 
-                                    string.Format("Score: {0}\nRemaining: {1:#0.0}s", gm.score, gm.timeRemain));
+    protected static void ScoreboardUpdate(GameManager gm, GAME_STATE stateRun=GAME_STATE.STATE_NORMAL) {
+        if (stateRun == GAME_STATE.STATE_NORMAL) {
+            GameManager.ScoreboardUpdate(gm.score, (int)Mathf.Ceil(gm.timeRemain), 
+                                        string.Format("Score: {0}\nTime: {1:#0.0}s", gm.score, gm.timeRemain));
+        }
+        else if (stateRun == GAME_STATE.STATE_INITIAL) {
+            GameManager.ScoreboardUpdate(0, (int)Mathf.Ceil(gm.timeRemain), 
+                                        string.Format("Ready? {0:#0.0}s", gm.timeRemain));
+        }
+        else if (stateRun == GAME_STATE.STATE_FINISHED) {
+            GameManager.ScoreboardUpdate(gm.score, (int)Mathf.Ceil(gm.timeRemain), 
+                                        string.Format("Game Over\nScore: {0}", gm.score));
+        }
     }
 
     // actually propagate score to scoreboards

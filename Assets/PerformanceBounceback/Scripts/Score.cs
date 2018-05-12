@@ -9,7 +9,7 @@ public class Score : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	    textScore = GetComponentInChildren<Text>();
-        GameManager.ScoreboardRegister(gameObject.name, ScoreboardCallback);
+        GameManager.ScoreboardRegister(gameObject.transform.parent.gameObject.name + " " + gameObject.name, ScoreboardCallback);
 	}
 	
     public void ScoreboardCallback(int scoreNew, int timeRemainNew, string strCombined) 

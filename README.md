@@ -14,6 +14,7 @@ within a count down period.
     * initial score, time remain counter, public variable for initial game time.
     * added callback structure (instad of in update loop)
     * remove `Update` function and instead use `InvokeRepeating` every half second
+    * add game state for begin, play, end of game
 * Sound addition
     * added bounce sound for ball when it hits trampoline
     * added music loop that gradually goes up in pitch
@@ -103,10 +104,10 @@ Looking at profiler, a lot of time was wasted in the
 </tr>
 </table>
    
-confirm mipmap for distance
 
-## Optimizing Shadows
-range and number of fall off regions
+## Optimizing Graphics
+* Confirmed that all textures have mipmap already enabled (**Textures -> Generate Mip Maps**)
+* Shadow regions looked reasonable, with four-part setting (**Project Settings -> Quality -> Cascade Splits**)
 
 ## Optimizing Anti-Alias
 oversampling vs distance
