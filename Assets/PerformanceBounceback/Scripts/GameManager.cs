@@ -34,7 +34,10 @@ public class GameManager : MonoBehaviour {
         InvokeRepeating("ScoreboardPreroll", 0.0f, invokeInterval);     //call scoreboard every 0.5s
     }
 
-    public bool GameRunning() {
+    public bool GameRunning(bool bAnyState=false) {
+        if (bAnyState) {        //allow for pre-roll detection, too
+            return (timeRemain != 0);
+        }
         return (timeRemain >= 0);
     }
 
@@ -44,7 +47,6 @@ public class GameManager : MonoBehaviour {
             {
                 return; //do nohting, no game!
             }
-
             score += numHits;
             GameManager.ScoreboardUpdate(this);
         }
@@ -71,7 +73,7 @@ public class GameManager : MonoBehaviour {
     // function to increment score, update callback
     private void ScoreboardRepeating() {
         timeRemain -= invokeInterval;
-        if (timeRemain >= 0) {
+        if (timeRemain > 0) {
             GameManager.ScoreboardUpdate(this);
             if (sourceMusic) {
                 sourceMusic.pitch = 1.0f + PITCH_ACCELERATE_MAX*((timeGameLength - timeRemain)/timeGameLength);

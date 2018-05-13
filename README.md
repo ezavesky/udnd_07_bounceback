@@ -20,8 +20,9 @@ within a count down period.
     * added music loop that gradually goes up in pitch
     * addded reverb for "factory like" envirionment:w
 * Throwable objects
-    * a potential issue was found where ball release was using a negative velocity; this issue requires additional investigation
-    
+    * a potential issue was found where ball release was using a 
+      negative velocity; this issue requires additional investigation (TODO)
+    * add touch pad detection to restart the game    
 
 
 # Scripting
@@ -88,6 +89,8 @@ Looking at profiler, a lot of time was wasted in the
 * Mixed lighting - modified all lights to be "mixed" instead of real-time **(r2)**
 * Ground Trampolines - updated ground trampoines (those that are not moving) 
   to be static **(r2)**
+* Added light probe but no visual difference or performance difference, 
+  so rolled-back to not include these extra components
 
 <table style='width:100%'>
 <tr>
@@ -118,9 +121,7 @@ Looking at profiler, a lot of time was wasted in the
 * Shadow regions looked reasonable, with four-part setting (**Project Settings -> Quality -> Cascade Splits**)
 
 ## Optimizing Anti-Alias
-oversampling vs distance
-
-
+* Quality sufficient without aliasing applied, so left off
 
 # Administrata Considerations
 This project is part of [Udacity](https://www.udacity.com "Udacity - Be in demand")'s [VR Developer Nanodegree](https://www.udacity.com/course/vr-developer-nanodegree--nd017).

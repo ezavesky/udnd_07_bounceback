@@ -22,7 +22,7 @@ public class Throw : MonoBehaviour
         device = SteamVR_Controller.Input((int)trackedObj.index);
         if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
         {
-            if (!gm.GameRunning())
+            if (!gm.GameRunning(true))
             {
                 gm.GameRestart();
             }
