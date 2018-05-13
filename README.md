@@ -19,6 +19,9 @@ within a count down period.
     * added bounce sound for ball when it hits trampoline
     * added music loop that gradually goes up in pitch
     * addded reverb for "factory like" envirionment:w
+* Throwable objects
+    * a potential issue was found where ball release was using a negative velocity; this issue requires additional investigation
+    
 
 
 # Scripting
@@ -72,6 +75,11 @@ Looking at profiler, a lot of time was wasted in the
     <td>demonstration of impact from trampoline movement, next optmization</td>
     <td> <a href="docs/time_2_trampmove.png" target="_new"><img src="docs/time_2_trampmove.png" width="100%" /></a></td>
 </tr>
+<tr>
+    <td>r2 (Vive)</td>
+    <td>demonstration of bounce/collider effect on runtime performance</td>
+    <td> <a href="docs/time_3_bounce.png" target="_new"><img src="docs/time_3_bounce.png" width="100%" /></a></td>
+</tr>
 </table>
    
 
@@ -99,7 +107,7 @@ Looking at profiler, a lot of time was wasted in the
 </tr>
 <tr>
     <td>r2</td>
-    <td>halved draws from ground trampolines being made static</td>
+    <td>halved draws from ground trampolines being made static <em>(both r1 and r2 ar erear facing statistics)</em></td>
     <td> <a href="docs/draws_2_static_tramp.png" target="_new"><img src="docs/draws_2_static_tramp.png" width="100%" /></a></td>
 </tr>
 </table>
@@ -125,7 +133,7 @@ This project is part of [Udacity](https://www.udacity.com "Udacity - Be in deman
 
 ## Time Consumed
 * Raw Log (to be simplified)
-* 3h 40m
+* 5h 20m
 
 ## Versions
 - Unity 2017.3.0f3+ (for development), originally created in Unity 2017.2.0f3

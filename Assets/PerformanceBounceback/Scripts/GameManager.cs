@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour {
         timeRemain = 0.0f;
         if (sourceOneShot && clipStart) {
             sourceOneShot.PlayOneShot(clipStart);
-            timeRemain = clipStart.length;
+            timeRemain = -clipStart.length;
         }
         InvokeRepeating("ScoreboardPreroll", 0.0f, invokeInterval);     //call scoreboard every 0.5s
     }
@@ -40,6 +40,11 @@ public class GameManager : MonoBehaviour {
 
     public void ScoreIncrement(int numHits=1) {
         lock (thisLock) {
+            if (!GameRunning())
+            {
+                return; //do nohting, no game!
+            }
+
             score += numHits;
             GameManager.ScoreboardUpdate(this);
         }
@@ -47,8 +52,8 @@ public class GameManager : MonoBehaviour {
 
     // preroll for initial sound introduction
     private void ScoreboardPreroll() {
-        timeRemain -= invokeInterval;
-        if (timeRemain >= 0.0f) {
+        timeRemain += invokeInterval;
+        if (timeRemain <= 0.0f) {
             GameManager.ScoreboardUpdate(this, GAME_STATE.STATE_INITIAL);
         }
         else {
@@ -99,10 +104,10 @@ public class GameManager : MonoBehaviour {
         }
         else if (stateRun == GAME_STATE.STATE_INITIAL) {
             GameManager.ScoreboardUpdate(0, (int)Mathf.Ceil(gm.timeRemain), 
-                                        string.Format("Ready? {0:#0.0}s", gm.timeRemain));
+                                        string.Format("Ready? {0:#0.0}s", -gm.timeRemain));
         }
         else if (stateRun == GAME_STATE.STATE_FINISHED) {
-            GameManager.ScoreboardUpdate(gm.score, (int)Mathf.Ceil(gm.timeRemain), 
+            GameManager.ScoreboardUpdate(gm.score, 0,
                                         string.Format("Game Over\nScore: {0}", gm.score));
         }
     }

@@ -71,10 +71,9 @@ public class BallSpawner : MonoBehaviour {
                     //now compute distance away from the user/camera
                     float fDistBall = Vector3.Distance(Camera.main.transform.position, 
                                                        pooledBalls[ballPoolNum].obj.transform.position);
-                    Debug.Log(string.Format("BallDist: {0}, MaxDist: {1}, BallTime: {2}, TimeNow: {3}", 
-                                           fDistBall, ballMaxDistance, pooledBalls[ballPoolNum].timeSpawn, Time.fixedTime));
                     if (fDistBall > ballMaxDistance || !pooledBalls[ballPoolNum].obj.activeInHierarchy) {
-                        Debug.Log(string.Format("[GetPooledBall]: Grabbing ball {0}", ballPoolNum));
+                        Debug.Log(string.Format("[GetPooledBall]: Idx:{0}, BallDist: {1}, MaxDist: {2}, BallTime: {3}, TimeNow: {4}", 
+                                  ballPoolNum, fDistBall, ballMaxDistance, pooledBalls[ballPoolNum].timeSpawn, Time.fixedTime));
                         break;
                     }
                 }
@@ -96,23 +95,21 @@ public class BallSpawner : MonoBehaviour {
    	
 	// Update is called once per frame
 	void Update () {
-        if (gameManager.GameRunning()) {
-            cooldown -= Time.deltaTime;
-            if(cooldown <= 0)
-            {
-                cooldown = cooldownLength;
-                SpawnBall();
-            }		
+        cooldown -= Time.deltaTime;
+        if(cooldown <= 0)
+        {
+            cooldown = cooldownLength;
+            SpawnBall(gameManager.GameRunning());
         }
 	}
 
-    void SpawnBall()
+    protected void SpawnBall(bool bSpawn)
     {
         GameObject selectedBall = BallSpawner.current.GetPooledBall();
         selectedBall.transform.position = transform.position;
         Rigidbody selectedRigidbody = selectedBall.GetComponent<Rigidbody>();
         selectedRigidbody.velocity = Vector3.zero;
         selectedRigidbody.angularVelocity = Vector3.zero;
-        selectedBall.SetActive(true);
+        selectedBall.SetActive(bSpawn);
     }
 }

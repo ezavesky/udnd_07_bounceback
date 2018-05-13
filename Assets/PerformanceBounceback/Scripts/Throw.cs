@@ -7,17 +7,27 @@ public class Throw : MonoBehaviour
     private SteamVR_TrackedObject trackedObj;
     private SteamVR_Controller.Device device;
     public float throwForce = 2f;
+    protected GameManager gm;
 
     // Use this for initialization
     void Start()
     {
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+        gm = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
         device = SteamVR_Controller.Input((int)trackedObj.index);
+        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
+        {
+            if (!gm.GameRunning())
+            {
+                gm.GameRestart();
+            }
+
+        }
     }
 
     void OnTriggerStay(Collider col)
@@ -33,7 +43,9 @@ public class Throw : MonoBehaviour
                 Rigidbody rigidBody = col.GetComponent<Rigidbody>();
                 rigidBody.isKinematic = false;
 
-                rigidBody.velocity = device.velocity * throwForce;
+                rigidBody.velocity = device.velocity * -throwForce;
+                //Debug.Log("Throw");
+                //Debug.Log(rigidBody.velocity);
                 rigidBody.angularVelocity = device.angularVelocity;
             }
             else if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
