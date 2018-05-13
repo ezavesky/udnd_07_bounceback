@@ -88,6 +88,7 @@ Looking at profiler, a lot of time was wasted in the
 * Mixed lighting - modified all lights to be "mixed" instead of real-time **(r2)**
 * Ground Trampolines - updated ground trampoines (those that are not moving) 
   to be static **(r2)**
+* Added light probes
 
 <table style='width:100%'>
 <tr>
