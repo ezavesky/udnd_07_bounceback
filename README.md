@@ -134,8 +134,8 @@ This project is part of [Udacity](https://www.udacity.com "Udacity - Be in deman
 * [PimPoy music loop](https://www.dl-sounds.com/royalty-free/pim-poy-pocket/)
 
 ## Time Consumed
-* Raw Log (to be simplified)
-* 5h 20m
+* 6h 40m - most time was spent on custom assets instead of optimization; 
+  it still has to be a fun game to play!
 
 ## Versions
 - Unity 2017.3.0f3+ (for development), originally created in Unity 2017.2.0f3
