@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
     public AudioSource sourceOneShot = null;  //sound source for oneshot
     public AudioClip clipStart = null;
     public AudioClip clipStop = null;
+    public GameObject objInstructionPanel = null;
     
     void Start() {
         score = 0;
@@ -36,9 +37,9 @@ public class GameManager : MonoBehaviour {
 
     public bool GameRunning(bool bAnyState=false) {
         if (bAnyState) {        //allow for pre-roll detection, too
-            return (timeRemain != 0);
+            return (timeRemain != 0.0f);
         }
-        return (timeRemain >= 0);
+        return (timeRemain > 0);
     }
 
     public void ScoreIncrement(int numHits=1) {
@@ -56,6 +57,9 @@ public class GameManager : MonoBehaviour {
     private void ScoreboardPreroll() {
         timeRemain += invokeInterval;
         if (timeRemain <= 0.0f) {
+            if (objInstructionPanel) {
+                objInstructionPanel.SetActive(false);
+            }
             GameManager.ScoreboardUpdate(this, GAME_STATE.STATE_INITIAL);
         }
         else {
@@ -88,6 +92,12 @@ public class GameManager : MonoBehaviour {
             }
             if (sourceOneShot && clipStop) {
                 sourceOneShot.PlayOneShot(clipStop);
+            }
+            if (objInstructionPanel) {
+                objInstructionPanel.SetActive(true);
+            }
+            if (objInstructionPanel) {
+                objInstructionPanel.SetActive(true);
             }
         }
     }

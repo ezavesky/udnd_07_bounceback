@@ -23,7 +23,8 @@ within a count down period.
     * a potential issue was found where ball release was using a 
       negative velocity; this issue requires additional investigation (TODO)
     * add touch pad detection to restart the game    
-
+* Instructions
+    * add instruction panel that shows/hides when game is done/starts
 
 # Scripting
 ## Update and Start Optimization
