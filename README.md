@@ -50,6 +50,7 @@ Looking at profiler, a lot of time was wasted in the
     * created four scoreboards along walls for easy visibility
 
 ## On-device Optimization (Vive)
+* Confirmed no extreme usage, monitor ball bounce **(r2 Vive)**
 
 <table style='width:100%'>
 <tr>
@@ -85,13 +86,16 @@ Looking at profiler, a lot of time was wasted in the
 </table>
    
 
-# General Graphics 
+# Graphics, Quality, Lights
 ## Optimizing Lights
-* Mixed lighting - modified all lights to be "mixed" instead of real-time **(r2)**
+* Mixed lighting - modified all lights to be "baked" instead of real-time **(r2)**
 * Ground Trampolines - updated ground trampoines (those that are not moving) 
   to be static **(r2)**
-* Added light probe but no visual difference or performance difference, 
-  so rolled-back to not include these extra components
+* Added light probe around specific lights, where largest expected area of
+  contrast is found.
+* Set frametime to 90Hz
+* Air Trampolines - add Rigidbody because all moving objects get rigid bodies
+* Lighting Path - set `forward` because of benefits for processing time
 
 <table style='width:100%'>
 <tr>
@@ -120,8 +124,6 @@ Looking at profiler, a lot of time was wasted in the
 ## Optimizing Graphics
 * Confirmed that all textures have mipmap already enabled (**Textures -> Generate Mip Maps**)
 * Shadow regions looked reasonable, with four-part setting (**Project Settings -> Quality -> Cascade Splits**)
-
-## Optimizing Anti-Alias
 * Quality sufficient without aliasing applied, so left off
 
 # Administrata Considerations
@@ -134,7 +136,7 @@ This project is part of [Udacity](https://www.udacity.com "Udacity - Be in deman
 * [PimPoy music loop](https://www.dl-sounds.com/royalty-free/pim-poy-pocket/)
 
 ## Time Consumed
-* 6h 40m - most time was spent on custom assets instead of optimization; 
+* 8h 40m - most time was spent on custom assets instead of optimization; 
   it still has to be a fun game to play!
 
 ## Versions

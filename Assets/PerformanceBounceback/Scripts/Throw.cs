@@ -44,6 +44,10 @@ public class Throw : MonoBehaviour
                 rigidBody.isKinematic = false;
 
                 rigidBody.velocity = device.velocity * -throwForce;
+                if (rigidBody.velocity.y < 0)
+                {
+                    rigidBody.velocity = new Vector3(rigidBody.velocity.x, -rigidBody.velocity.y, rigidBody.velocity.z);
+                }
                 //Debug.Log("Throw");
                 //Debug.Log(rigidBody.velocity);
                 rigidBody.angularVelocity = device.angularVelocity;

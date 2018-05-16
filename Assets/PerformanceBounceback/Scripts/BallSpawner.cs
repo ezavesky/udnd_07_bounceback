@@ -19,9 +19,8 @@ public class BallSpawner : MonoBehaviour {
     public static int ballPoolNum = 0; //a number used to cycle through the pooled objects
     protected static int ballPoolLast = 0;     //index for last loop
     
-    // NOTE: we replace the user-specified "ballsAmount" with the formulaic number to create (see "CreatePooledBalls")
+    // NOTE: replaced the user-specified "ballsAmount" with the formulaic number to create (see "CreatePooledBalls")
 
-    private float cooldown;
     private float cooldownLength = 0.5f;
     public float ballTimeout = 10.0f;      // default time before a ball is reused
     public float ballMaxDistance = 10.0f;   // default distance away from user to reuse a bal
@@ -39,6 +38,7 @@ public class BallSpawner : MonoBehaviour {
         pooledBalls = new List<BallProperties>();
         ballPoolLast = 0;
         CreatePooledBalls();
+        InvokeRepeating("SpawnBall", cooldownLength*4, cooldownLength);     //call cooldown after a brief start-up delay
     }
 
     //create new pooled/cached balls, ideally this should only happen once!
@@ -59,7 +59,7 @@ public class BallSpawner : MonoBehaviour {
         }
     }
 
-    public GameObject GetPooledBall()
+    public GameObject GetPooledBall(bool bApplyDistanceRequirement=true)
     {
         lock (thisLock) {
             do {
@@ -71,7 +71,7 @@ public class BallSpawner : MonoBehaviour {
                     //now compute distance away from the user/camera
                     float fDistBall = Vector3.Distance(Camera.main.transform.position, 
                                                        pooledBalls[ballPoolNum].obj.transform.position);
-                    if (fDistBall > ballMaxDistance || !pooledBalls[ballPoolNum].obj.activeInHierarchy) {
+                    if (!bApplyDistanceRequirement || (fDistBall > ballMaxDistance || !pooledBalls[ballPoolNum].obj.activeInHierarchy)) {
                         Debug.Log(string.Format("[GetPooledBall]: Idx:{0}, BallDist: {1}, MaxDist: {2}, BallTime: {3}, TimeNow: {4}", 
                                   ballPoolNum, fDistBall, ballMaxDistance, pooledBalls[ballPoolNum].timeSpawn, Time.fixedTime));
                         break;
@@ -92,24 +92,14 @@ public class BallSpawner : MonoBehaviour {
             return pooledBalls[ballPoolNum].obj;
         }
     }
-   	
-	// Update is called once per frame
-	void Update () {
-        cooldown -= Time.deltaTime;
-        if(cooldown <= 0)
-        {
-            cooldown = cooldownLength;
-            SpawnBall(gameManager.GameRunning());
-        }
-	}
 
-    protected void SpawnBall(bool bSpawn)
+    protected void SpawnBall()
     {
-        GameObject selectedBall = BallSpawner.current.GetPooledBall();
+        GameObject selectedBall = BallSpawner.current.GetPooledBall(gameManager.GameRunning());
         selectedBall.transform.position = transform.position;
         Rigidbody selectedRigidbody = selectedBall.GetComponent<Rigidbody>();
         selectedRigidbody.velocity = Vector3.zero;
         selectedRigidbody.angularVelocity = Vector3.zero;
-        selectedBall.SetActive(bSpawn);
+        selectedBall.SetActive(gameManager.GameRunning());
     }
 }

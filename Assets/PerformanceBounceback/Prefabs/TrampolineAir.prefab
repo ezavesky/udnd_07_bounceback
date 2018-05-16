@@ -26,7 +26,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &1591805662915018
 GameObject:
@@ -46,7 +46,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &4284169898027118
 Transform:
@@ -55,7 +55,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1591805662915018}
   m_LocalRotation: {x: -0.23450214, y: -0, z: -0, w: 0.97211564}
-  m_LocalPosition: {x: 8.89, y: -23.619999, z: -6.46}
+  m_LocalPosition: {x: -2.02, y: -23.619999, z: -6.46}
   m_LocalScale: {x: 100, y: 99.99998, z: 99.99998}
   m_Children:
   - {fileID: 4489777708353450}
@@ -139,8 +139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 872a10a516d4ed84eb767801741ce77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pSystem: {fileID: 0}
-  scoreScript: {fileID: 0}
 --- !u!114 &114724775834037716
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -215,7 +213,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 880827808
+  randomSeed: 929299461
   InitialModule:
     serializedVersion: 3
     enabled: 1
