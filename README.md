@@ -138,6 +138,9 @@ This project is part of [Udacity](https://www.udacity.com "Udacity - Be in deman
 ## Time Consumed
 * 8h 40m - most time was spent on custom assets instead of optimization; 
   it still has to be a fun game to play!
+* There was a lot of investigative and experimental time lost around light
+  probes, which shoudln't have been the case.  An issue was created for others
+  to hopefully see and learn from: https://discussions.udacity.com/t/light-probe-tricks/708956.
 
 ## Versions
 - Unity 2017.3.0f3+ (for development), originally created in Unity 2017.2.0f3
