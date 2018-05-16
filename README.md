@@ -83,6 +83,11 @@ Looking at profiler, a lot of time was wasted in the
     <td>demonstration of bounce/collider effect on runtime performance</td>
     <td> <a href="docs/time_3_bounce.png" target="_new"><img src="docs/time_3_bounce.png" width="100%" /></a></td>
 </tr>
+<tr>
+    <td>r3 (Vive)</td>
+    <td>minimal effect of runtime performance after light probe</td>
+    <td> <a href="docs/time_4_play_vive.png" target="_new"><img src="docs/time_4_play_vive.png" width="100%" /></a></td>
+</tr>
 </table>
    
 
@@ -92,7 +97,7 @@ Looking at profiler, a lot of time was wasted in the
 * Ground Trampolines - updated ground trampoines (those that are not moving) 
   to be static **(r2)**
 * Added light probe around specific lights, where largest expected area of
-  contrast is found.
+  contrast is found. **(r3)**
 * Set frametime to 90Hz
 * Air Trampolines - add Rigidbody because all moving objects get rigid bodies
 * Lighting Path - set `forward` because of benefits for processing time
