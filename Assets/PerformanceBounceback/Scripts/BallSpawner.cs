@@ -46,8 +46,8 @@ public class BallSpawner : MonoBehaviour {
         lock (thisLock) {
             ballPoolNum = pooledBalls.Count;
             int ballsAmount = (int)Mathf.Floor(ballTimeout/cooldownLength);
-            Debug.Log(string.Format("[GreatePooledBalls]: Executing to generate {0} additional balls for existing {1}, time:{2}.",
-                                    ballsAmount, pooledBalls.Count, Time.fixedTime));
+            //Debug.Log(string.Format("[GreatePooledBalls]: Executing to generate {0} additional balls for existing {1}, time:{2}.",
+            //                        ballsAmount, pooledBalls.Count, Time.fixedTime));
             for (int i = 0; i < ballsAmount; i++)
             {
                 BallProperties propNew = new BallProperties();
@@ -72,8 +72,8 @@ public class BallSpawner : MonoBehaviour {
                     float fDistBall = Vector3.Distance(Camera.main.transform.position, 
                                                        pooledBalls[ballPoolNum].obj.transform.position);
                     if (!bApplyDistanceRequirement || (fDistBall > ballMaxDistance || !pooledBalls[ballPoolNum].obj.activeInHierarchy)) {
-                        Debug.Log(string.Format("[GetPooledBall]: Idx:{0}, BallDist: {1}, MaxDist: {2}, BallTime: {3}, TimeNow: {4}", 
-                                  ballPoolNum, fDistBall, ballMaxDistance, pooledBalls[ballPoolNum].timeSpawn, Time.fixedTime));
+                                      // Debug.Log(string.Format("[GetPooledBall]: Idx:{0}, BallDist: {1}, MaxDist: {2}, BallTime: {3}, TimeNow: {4}", 
+          //          ballPoolNum, fDistBall, ballMaxDistance, pooledBalls[ballPoolNum].timeSpawn, Time.fixedTime));
                         break;
                     }
                 }
