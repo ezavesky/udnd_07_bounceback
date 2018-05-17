@@ -129,7 +129,8 @@ Looking at profiler, a lot of time was wasted in the
 ## Optimizing Graphics
 * Confirmed that all textures have mipmap already enabled (**Textures -> Generate Mip Maps**)
 * Shadow regions looked reasonable, with four-part setting (**Project Settings -> Quality -> Cascade Splits**)
-* Quality sufficient without aliasing applied, so left off
+* Anti aliasing turned on for top three quality settings (**Project Settings -> Quality -> Anti Aliasing -> ~4x or 8x**)
+* Enable static batching (**Build Settings -> Player Settings -> Dynamic Batching**) **(v4)**
 
 # Administrata Considerations
 This project is part of [Udacity](https://www.udacity.com "Udacity - Be in demand")'s [VR Developer Nanodegree](https://www.udacity.com/course/vr-developer-nanodegree--nd017).
@@ -141,7 +142,7 @@ This project is part of [Udacity](https://www.udacity.com "Udacity - Be in deman
 * [PimPoy music loop](https://www.dl-sounds.com/royalty-free/pim-poy-pocket/)
 
 ## Time Consumed
-* 8h 40m - most time was spent on custom assets instead of optimization; 
+* 9h 20m - most time was spent on custom assets instead of optimization; 
   it still has to be a fun game to play!
 * There was a lot of investigative and experimental time lost around light
   probes, which shoudln't have been the case.  An issue was created for others

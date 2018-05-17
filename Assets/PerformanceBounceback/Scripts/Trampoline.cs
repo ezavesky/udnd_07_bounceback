@@ -25,7 +25,7 @@ public class Trampoline : MonoBehaviour {
             if (soundBounce) {
                 soundBounce.PlayOneShotSound();
             }
-            Debug.Log("Trampoline Hit");
+            //Debug.Log("Trampoline Hit");
         }
 
     }
