@@ -50,6 +50,7 @@ Looking at profiler, a lot of time was wasted in the
     * created four scoreboards along walls for easy visibility
 
 ## On-device Optimization (Vive)
+* Confirmed no extreme usage, monitor ball bounce **(r2 Vive)**
 
 <table style='width:100%'>
 <tr>
@@ -82,16 +83,24 @@ Looking at profiler, a lot of time was wasted in the
     <td>demonstration of bounce/collider effect on runtime performance</td>
     <td> <a href="docs/time_3_bounce.png" target="_new"><img src="docs/time_3_bounce.png" width="100%" /></a></td>
 </tr>
+<tr>
+    <td>r3 (Vive)</td>
+    <td>minimal effect of runtime performance after light probe</td>
+    <td> <a href="docs/time_4_play_vive.png" target="_new"><img src="docs/time_4_play_vive.png" width="100%" /></a></td>
+</tr>
 </table>
    
 
-# General Graphics 
+# Graphics, Quality, Lights
 ## Optimizing Lights
-* Mixed lighting - modified all lights to be "mixed" instead of real-time **(r2)**
+* Mixed lighting - modified all lights to be "baked" instead of real-time **(r2)**
 * Ground Trampolines - updated ground trampoines (those that are not moving) 
   to be static **(r2)**
-* Added light probe but no visual difference or performance difference, 
-  so rolled-back to not include these extra components
+* Added light probe around specific lights, where largest expected area of
+  contrast is found. **(r3)**
+* Set frametime to 90Hz
+* Air Trampolines - add Rigidbody because all moving objects get rigid bodies
+* Lighting Path - set `forward` because of benefits for processing time
 
 <table style='width:100%'>
 <tr>
@@ -114,15 +123,24 @@ Looking at profiler, a lot of time was wasted in the
     <td>halved draws from ground trampolines being made static <em>(both r1 and r2 ar erear facing statistics)</em></td>
     <td> <a href="docs/draws_2_static_tramp.png" target="_new"><img src="docs/draws_2_static_tramp.png" width="100%" /></a></td>
 </tr>
+<tr>
+    <td>r3 (vive)</td>
+    <td>draws during play on device</td>
+    <td> <a href="docs/draws_3_play_vive.png" target="_new"><img src="docs/draws_3_play_vive.png" width="100%" /></a></td>
+</tr>
+<tr>
+    <td>r5 (vive)</td>
+    <td>static batching enabled draws during play on device</td>
+    <td> <a href="docs/draws_5_batched_vive.png" target="_new"><img src="docs/draws_5_batched_vive.png" width="100%" /></a></td>
+</tr>
 </table>
    
 
 ## Optimizing Graphics
 * Confirmed that all textures have mipmap already enabled (**Textures -> Generate Mip Maps**)
 * Shadow regions looked reasonable, with four-part setting (**Project Settings -> Quality -> Cascade Splits**)
-
-## Optimizing Anti-Alias
-* Quality sufficient without aliasing applied, so left off
+* Anti aliasing turned on for top three quality settings (**Project Settings -> Quality -> Anti Aliasing -> ~4x or 8x**)
+* Enable static batching (**Build Settings -> Player Settings -> Dynamic Batching**) **(v5)**
 
 # Administrata Considerations
 This project is part of [Udacity](https://www.udacity.com "Udacity - Be in demand")'s [VR Developer Nanodegree](https://www.udacity.com/course/vr-developer-nanodegree--nd017).
@@ -134,8 +152,11 @@ This project is part of [Udacity](https://www.udacity.com "Udacity - Be in deman
 * [PimPoy music loop](https://www.dl-sounds.com/royalty-free/pim-poy-pocket/)
 
 ## Time Consumed
-* 6h 40m - most time was spent on custom assets instead of optimization; 
+* 9h 20m - most time was spent on custom assets instead of optimization; 
   it still has to be a fun game to play!
+* There was a lot of investigative and experimental time lost around light
+  probes, which shoudln't have been the case.  An issue was created for others
+  to hopefully see and learn from: https://discussions.udacity.com/t/light-probe-tricks/708956.
 
 ## Versions
 - Unity 2017.3.0f3+ (for development), originally created in Unity 2017.2.0f3

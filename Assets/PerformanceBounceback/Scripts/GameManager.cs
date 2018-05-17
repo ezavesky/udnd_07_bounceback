@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
         score = 0;
         timeRemain = 0;
 
-        GameRestart();      //for now, remove during actual gameplay?
+        //GameRestart();      //for now, remove during actual gameplay?
     }
 
     public void GameRestart() {
