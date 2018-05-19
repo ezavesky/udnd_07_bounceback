@@ -20,7 +20,7 @@ public class Throw : MonoBehaviour
     void Update()
     {
         device = SteamVR_Controller.Input((int)trackedObj.index);
-        if (device.GetPressDown(SteamVR_Controller.ButtonMask.Touchpad))
+        if (device.GetPressDown(CrossDevice.button_teleport))
         {
             if (!gm.GameRunning(true))
             {
@@ -34,7 +34,7 @@ public class Throw : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Throwable"))
         {
-            if (device.GetPressUp(SteamVR_Controller.ButtonMask.Trigger))
+            if (device.GetPressUp(CrossDevice.button_grab))
             {
                 Debug.Log("You have released the trigger");
 
@@ -52,7 +52,7 @@ public class Throw : MonoBehaviour
                 //Debug.Log(rigidBody.velocity);
                 rigidBody.angularVelocity = device.angularVelocity;
             }
-            else if (device.GetPressDown(SteamVR_Controller.ButtonMask.Trigger))
+            else if (device.GetPressDown(CrossDevice.button_grab))
             {
                 Debug.Log("You are touching down the trigger on an object");
                 col.GetComponent<Rigidbody>().isKinematic = true;
