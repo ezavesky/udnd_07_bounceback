@@ -22,6 +22,7 @@ public static class CrossDevice {
     const string model_rift1 = "Oculus Rift CV1"; 
     
     public static void Init() { 
+        // follow-up with devices here .. https://docs.unity3d.com/Manual/OpenVRControllers.html
         string model = UnityEngine.XR.XRDevice.model != null ? UnityEngine.XR.XRDevice.model : ""; 
         if ( model.IndexOf("Rift") >= 0 ) { 
             type = Type.OculusTouch; 
